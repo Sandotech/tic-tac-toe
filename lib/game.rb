@@ -24,22 +24,20 @@ class Game
 
   def set_row(number)
     puts "Your turn, Player ##{number}\nPlease enter the row where you want to put your character"
-    row = gets.chomp.to_i 
-    until row <= 2
-      puts "Please enter the row where you want to put your character, the value should be between 0 and 2"
-      row = gets.chomp.to_i 
+    return validate_number(gets.chomp.to_i)
+  end
+
+  def validate_number(value)
+    until value <= 2
+      puts "The value should be between 0 and 2"
+      value = gets.chomp.to_i
     end
-    row
+    value
   end
 
   def set_column
     puts "now put the column in the selected row"
-    column = gets.chomp.to_i
-    until column <= 2
-      puts "Put the column in the selected row, the value should be between 0 and 2"
-      column = gets.chomp.to_i 
-    end
-    column
+    return validate_number(gets.chomp.to_i)
   end
 
   def game_loop
