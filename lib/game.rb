@@ -44,6 +44,8 @@ class Game
       break if @board.check_full?
       if @board.check_won?(@player_one.character)
         announce_winner(1)
+        coincidences = @board.coincidences(@player_one.character)
+        @board.display_with_color(coincidences, :green)
         break
       end
       @board.display
@@ -51,9 +53,10 @@ class Game
       break if @board.check_full?
       if @board.check_won?(@player_two.character)
         announce_winner(2)
+        coincidences = @board.coincidences(@player_two.character)
+        @board.display_with_color(coincidences, :green)
         break
       end
     end
-    @board.display
   end
 end

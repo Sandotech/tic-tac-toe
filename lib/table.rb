@@ -72,11 +72,4 @@ class Board
   end
 end
 
-board = Board.new
-board.set_word("X", 0, 1)
-board.set_word("X", 0, 0)
-board.set_word("X", 0, 2)
-coincidences = board.coincidences("X")
-board.display_with_color(coincidences, :green)
-
 # "- | - | -\n- | - | -\n- | - | -"
