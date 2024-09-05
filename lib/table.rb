@@ -11,8 +11,8 @@ class Board
     @is_full = false
   end
 
-  def display
-    board = @table.flatten
+  def display(table = @table)
+    board = table.flatten
     puts " #{board[0]} | #{board[1]} | #{board[2]} "
     puts "-----------"
     puts " #{board[3]} | #{board[4]} | #{board[5]} "
@@ -56,9 +56,27 @@ class Board
     coincidences.empty? ? false : true
   end
 
+  def coincidences(character)
+    WON_GAME.select do |win_combination|
+      win_combination.all? { |index| @table[index / 3][index % 3] == character }
+    end
+  end
+
+  def display_with_color(coincidences, color)
+    cloned_table = @table.flatten.map.with_index {|v, i| v = coincidences.flatten.include?(i) ? v.colorize(color) : v }
+    self.display(cloned_table)
+  end
+
   def check_full?
     @table.flatten.all? {|chr| chr != " "}
   end
 end
+
+board = Board.new
+board.set_word("X", 0, 1)
+board.set_word("X", 0, 0)
+board.set_word("X", 0, 2)
+coincidences = board.coincidences("X")
+board.display_with_color(coincidences, :green)
 
 # "- | - | -\n- | - | -\n- | - | -"
