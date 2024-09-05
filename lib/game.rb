@@ -18,36 +18,50 @@ class Game
 
   def player_turn(number, player)
     row = self.set_row(number)
-    column = self.set_column
+    column = self.set_column(row)
     @board.set_word(player.character, row, column)
   end
 
   def set_row(number)
     puts "Your turn, Player ##{number}\nPlease enter the row where you want to put your character"
-    return validate_number(gets.chomp.to_i)
+    row = gets.chomp.to_i
+    return @board.set_row(row)
   end
 
-  def validate_number(value)
-    until value <= 2
-      puts "The value should be between 0 and 2"
-      value = gets.chomp.to_i
-    end
-    value
-  end
-
-  def set_column
+  def set_column(row)
     puts "now put the column in the selected row"
-    return validate_number(gets.chomp.to_i)
+    @board.set_column(row, gets.chomp.to_i)
+  end
+
+  def announce_winner(player_number)
+    puts "Congratulations Player ##{player_number}, you've won the TIC TAC TOE GAME!"
   end
 
   def game_loop
-    until @board.check_full? 
+    until @board.check_full?
       @board.display
       player_turn(1, @player_one)
+      break if @board.check_full?
+      if @board.check_won?(@player_one.character)
+        announce_winner(1)
+        break
+      end
       @board.display
       player_turn(2, @player_two)
+      break if @board.check_full?
+      if @board.check_won?(@player_two.character)
+        announce_winner(2)
+        break
+      end
     end
-
+    # until @board.check_full?
+    #   @board.display
+    #   player_turn(1, @player_one)
+    #   if @board.check_won?(@player_one.character)
+    #     announce_winner(1)
+    #     break
+    #   end
+    # end
     @board.display
   end
 end
