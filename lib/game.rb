@@ -8,7 +8,7 @@ class Game
     @player_one = self.init_player_one
     @player_two = self.init_player_two
     @board = Board.new
-    self.init_game
+    self.play
   end
 
   def player_turn(number, player_character)
@@ -35,7 +35,7 @@ class Game
 
   def play
     puts "Welcome to Tic Tac Toe Game!"
-    self.init_game
+    self.game_loop
   end
 
   def set_column(row)
@@ -61,8 +61,18 @@ class Game
     end
   end
 
+  def draw?(player_character)
+    draw_condition = @board.check_full? unless @board.check_won?(player_character)
+
+    if draw_condition
+      puts "It's a draw!"
+      @board.display_with_color((0..8).to_a, :red)
+      true
+    end
+  end
+
   def game_loop_breaker(player_character, player_number)
-    true if @board.check_full? or if_player_won(player_character, player_number)
+    true if self.draw?(player_character) or if_player_won(player_character, player_number)
   end
 
   def game_loop
