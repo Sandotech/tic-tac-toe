@@ -1,31 +1,41 @@
 # frozen_string_literal: true
 
 require_relative 'player'
-require_relative 'table'
+require_relative 'board'
 
 class Game
-  turns = 9
-
   def initialize
-    puts 'Welcome, please enter your character, player 1'
-    @player_one = Player.new(gets.chomp)
-    puts "Great! your turn, Player 2!"
-    @player_two = Player.new(gets.chomp)
-    puts "Welcome to Tic Tac Toe Game!"
+    @player_one = self.init_player_one
+    @player_two = self.init_player_two
     @board = Board.new
-    self.game_loop
+    self.init_game
   end
 
-  def player_turn(number, player)
+  def player_turn(number, player_character)
     row = self.set_row(number)
     column = self.set_column(row)
-    @board.set_word(player.character, row, column)
+    @board.set_word(player_character, row, column)
   end
 
   def set_row(number)
     puts "Your turn, Player ##{number}\nPlease enter the row where you want to put your character"
     row = gets.chomp.to_i
     return @board.set_row(row)
+  end
+
+  def init_player_one
+    puts 'Welcome, please enter your character, player 1'
+    Player.new(gets.chomp)
+  end
+
+  def init_player_two
+    puts "Great! your turn, Player 2!"
+    Player.new(gets.chomp)
+  end
+
+  def play
+    puts "Welcome to Tic Tac Toe Game!"
+    self.init_game
   end
 
   def set_column(row)
@@ -37,26 +47,30 @@ class Game
     puts "Congratulations Player ##{player_number}, you've won the TIC TAC TOE GAME!"
   end
 
+  def player_loop(player_number, character)
+    @board.display
+    player_turn(player_number, character)
+  end
+
+  def if_player_won(player_character, player_number)
+    if @board.check_won?(player_character)
+      announce_winner(player_number)
+      coincidences = @board.coincidences(player_character)
+      @board.display_with_color(coincidences, :green)
+      true
+    end
+  end
+
+  def game_loop_breaker(player_character, player_number)
+    true if @board.check_full? or if_player_won(player_character, player_number)
+  end
+
   def game_loop
     until @board.check_full?
-      @board.display
-      player_turn(1, @player_one)
-      break if @board.check_full?
-      if @board.check_won?(@player_one.character)
-        announce_winner(1)
-        coincidences = @board.coincidences(@player_one.character)
-        @board.display_with_color(coincidences, :green)
-        break
-      end
-      @board.display
-      player_turn(2, @player_two)
-      break if @board.check_full?
-      if @board.check_won?(@player_two.character)
-        announce_winner(2)
-        coincidences = @board.coincidences(@player_two.character)
-        @board.display_with_color(coincidences, :green)
-        break
-      end
+      player_loop(1, @player_one.character)
+      break if game_loop_breaker(@player_one.character, 1)
+      player_loop(2, @player_two.character)
+      break if game_loop_breaker(@player_two.character, 2)
     end
   end
 end
