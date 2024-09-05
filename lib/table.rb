@@ -6,19 +6,18 @@ class Board
   WON_GAME = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
 
   def initialize
-    @table = Array.new(3) { Array.new(3, nil) }
+    @table = Array.new(3) { Array.new(3, " ") }
     @over = false
     @is_full = false
   end
 
   def display
-    brd = @table.flatten
-    board = " 
-          #{brd[0]} | #{brd[1]} | #{brd[2]}
-          #{brd[3]} | #{brd[4]} | #{brd[5]}
-          #{brd[6]} | #{brd[7]} | #{brd[8]}
-            "
-    puts board
+    board = @table.flatten
+    puts " #{board[0]} | #{board[1]} | #{board[2]} "
+    puts "-----------"
+    puts " #{board[3]} | #{board[4]} | #{board[5]} "
+    puts "-----------"
+    puts " #{board[6]} | #{board[7]} | #{board[8]} "
   end
 
   def set_word(character, row, column)
@@ -28,9 +27,9 @@ class Board
   end
 
   def set_row(number)
-    return number if number.between?(0, 2) and @table[number].any? &:nil?
+    return number if number.between?(0, 2) and @table[number].any? (" ")
 
-    until number.between?(0, 2) and @table[number].any? &:nil?
+    until number.between?(0, 2) and @table[number].any? (" ")
       puts "Invalid row, set another row"
       number = gets.chomp.to_i
     end
@@ -38,9 +37,9 @@ class Board
   end
 
   def set_column(row, column)
-    return column if column.between?(0, 2) and @table[row][column].nil?
+    return column if column.between?(0, 2) and @table[row][column].eql?(" ")
 
-    until column.between?(0, 2) and @table[row][column].nil?
+    until column.between?(0, 2) and @table[row][column].eql?(" ")
       puts "Invalid column, set another column"
       column = gets.chomp.to_i
     end
@@ -58,7 +57,7 @@ class Board
   end
 
   def check_full?
-    @table.flatten.all? {|chr| chr != nil}
+    @table.flatten.all? {|chr| chr != " "}
   end
 end
 
