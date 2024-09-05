@@ -9,6 +9,8 @@ class Player
     @@characters << @character
   end
 
+  private
+
   def validates_character(character)
     valid_length = length_character_validator(character) 
     not_repeated = not_repeatable_character(valid_length)

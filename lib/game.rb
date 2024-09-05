@@ -11,6 +11,8 @@ class Game
     self.play
   end
 
+  private
+
   def player_turn(number, player_character)
     row = self.set_row(number)
     column = self.set_column(row)
