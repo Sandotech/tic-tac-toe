@@ -54,14 +54,6 @@ class Game
         break
       end
     end
-    # until @board.check_full?
-    #   @board.display
-    #   player_turn(1, @player_one)
-    #   if @board.check_won?(@player_one.character)
-    #     announce_winner(1)
-    #     break
-    #   end
-    # end
     @board.display
   end
 end

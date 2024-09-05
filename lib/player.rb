@@ -7,7 +7,6 @@ class Player
   def initialize(character)
     @character = validates_character(character)
     @@characters << @character
-    # @@all_players += 1
   end
 
   def validates_character(character)
