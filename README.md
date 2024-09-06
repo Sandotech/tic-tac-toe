@@ -1,6 +1,3 @@
-Here's a `README.md` file for your Tic Tac Toe game implemented in Ruby:
-
-
 # Tic Tac Toe Game
 
 This is a command-line Tic Tac Toe game implemented in Ruby. The game allows two players to compete against each other by taking turns to place their chosen character (X or O) on a 3x3 grid. The objective is to be the first player to align three of their characters either horizontally, vertically, or diagonally.
